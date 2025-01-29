@@ -28,8 +28,8 @@ class TripleSwitch extends StatelessWidget {
     return ListenableBuilder(
           listenable: switchNotifier,
           builder: (context, child) {
-            print('Switch notifier position: ${switchNotifier.position}');
-            print('Switch notifier timout:   ${switchNotifier.timeout}');
+            //print('Switch notifier position: ${switchNotifier.position}');
+            //print('Switch notifier timout:   ${switchNotifier.timeout}');
             return TripleSwitchUI(
               position: switchNotifier.position ?? position,
               timeout: switchNotifier.timeout ?? timeoutByDirection(switchNotifier.position ?? position),
@@ -41,7 +41,7 @@ class TripleSwitch extends StatelessWidget {
                   Isolate.spawn(startTimer, (timeout: switchNotifier.timeout ?? (timeoutByDirection(position) ?? 0), sendPort: timerPort.sendPort));
 
                   timerPort.listen((time){
-                    print('I have been listen some thing, like: $time');
+                    //print('I have been listen some thing, like: $time');
 
                     // Send Data to state
                     if (time != null) { switchNotifier.setTimeout(time);}
