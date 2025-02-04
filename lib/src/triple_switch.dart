@@ -1,75 +1,78 @@
 // Import Dart and Flutter
-import 'dart:isolate';
 import 'package:flutter/material.dart';
 
 // Import Modules
+import 'switch_model.dart';
 import 'switch_notifier.dart';
 import 'triple_switch_ui.dart';
 
 enum SwitchPosition {on, wait, off}
 
 class TripleSwitch extends StatelessWidget {
-  final SwitchPosition? position;
+  final String id;
+  final SwitchPosition? value;
   final int? timeoutOffOn;
   final int? timeoutOnOff;
   final ValueChanged<SwitchPosition>? onChanged;
 
-  const TripleSwitch({super.key, this.position, this.timeoutOffOn, this.timeoutOnOff, this.onChanged});
+  const TripleSwitch({super.key, required this.id, this.value, this.timeoutOffOn, this.timeoutOnOff, this.onChanged});
 
   //Get Timeout by dependence from direction Off->On / On->Off
-  int? timeoutByDirection(SwitchPosition? swp) =>
-      (swp == SwitchPosition.on) ? timeoutOnOff : timeoutOffOn;
+  int timeoutByDirection(SwitchPosition? swp) =>
+      ((swp == SwitchPosition.on) ? timeoutOnOff : timeoutOffOn) ?? 0;
 
   @override
   Widget build(BuildContext context) {
-    final timerPort = ReceivePort();
-    final SwitchNotifier switchNotifier = SwitchNotifier();
+
+    final SwitchState switchers = SwitchState()..data.addAll({id : SwitchModel()});
+    print('Keys: ${switchers.data.keys}');
 
     return ListenableBuilder(
-          listenable: switchNotifier,
+          listenable: switchers,
           builder: (context, child) {
-            //print('Switch notifier position: ${switchNotifier.position}');
-            //print('Switch notifier timout:   ${switchNotifier.timeout}');
+            print('Switch notifier position: ${switchers.data[id]!.position}');
+            print('Switch notifier timout:   ${switchers.data[id]!.timeout}');
             return TripleSwitchUI(
-              position: switchNotifier.position ?? position,
-              timeout: switchNotifier.timeout ?? timeoutByDirection(switchNotifier.position ?? position),
-              onChanged: (onChanged != null) ? (value) {
-                if (value == SwitchPosition.wait) {
-                  switchNotifier.setTimeout(timeoutByDirection(switchNotifier.position ?? position));
+              position: switchers.data[id]!.position ?? value,
+              timeout: switchers.data[id]!.timeout == 0 ? timeoutByDirection(switchers.data[id]!.position ?? value) : switchers.data[id]!.timeout,
+              onChanged: () {
+                if (onChanged != null) {
+                  if (timeoutByDirection(switchers.data[id]!.position ?? value) != 0) {
+                    switchers.setPosition(id, SwitchPosition.wait);
+                    switchers.start(id, timeoutByDirection(switchers.data[id]!.position ?? value));
+                  } else {
 
-                  // Run timer with descending value
-                  Isolate.spawn(startTimer, (timeout: switchNotifier.timeout ?? (timeoutByDirection(position) ?? 0), sendPort: timerPort.sendPort));
-
-                  timerPort.listen((time){
-                    //print('I have been listen some thing, like: $time');
-
-                    // Send Data to state
-                    if (time != null) { switchNotifier.setTimeout(time);}
-                      else { switchNotifier.setPosition(position);}
-
-                    if (time == null) timerPort.close();
-                  });
+                    // Set Switcher to new position
+                    switchers.setPosition(id, (value == SwitchPosition.on) ? SwitchPosition.off : SwitchPosition.on);
+                  }
 
                 }
-                // Set Switcher to new position
-                switchNotifier.setPosition(value);
+              },
 
-                // TODO: Запуск Изолята с конкретной операцией вероятно выше по дереву ?!?
-                onChanged!(value);
-              } : null,
+
+              // onChanged: (onChanged != null) ? (value) {
+              //   if (value == SwitchPosition.wait) {
+              //     switchers.start(id, timeoutByDirection(switchers.data[id]!.position ?? value));
+              //   }
+              //   // Set Switcher to new position
+              //   switchers.setPosition(id, value);
+              //
+              //   // TODO: Запуск Изолята с конкретной операцией вероятно выше по дереву ?!?
+              //   onChanged!(value);
+              // } : null,
             );
           }
       );
   }
 }
 
-void startTimer(({int timeout, SendPort sendPort}) data) async {
-  for (int i = (data.timeout - 1); i >= 0; --i) {
-    await Future.delayed(const Duration(seconds: 1), () => data.sendPort.send(i));
-  }
-  data.sendPort.send(null);
-  //print('isolate finished');
-}
+// void startTimer(({int timeout, SendPort sendPort}) data) async {
+//   for (int i = (data.timeout - 1); i >= 0; --i) {
+//     await Future.delayed(const Duration(seconds: 1), () => data.sendPort.send(i));
+//   }
+//   data.sendPort.send(null);
+//   //print('isolate finished');
+// }
 
 // Инверсия позиции тумблера
 // switchPosition iPos(switchPosition swPos) =>

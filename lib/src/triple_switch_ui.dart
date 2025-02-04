@@ -7,6 +7,7 @@ import 'default_decoration_switch.dart';
 
 class TripleSwitchUI extends StatelessWidget {
   final SwitchPosition? position;
+  //final bool position;
 
   final BoxDecoration? decorationTrackOn;
   final BoxDecoration? decorationTrackOff;
@@ -29,10 +30,12 @@ class TripleSwitchUI extends StatelessWidget {
   final TextStyle? textStyleEnabled;
   final TextStyle? textStyleDisabled;
 
-  final ValueChanged<SwitchPosition>? onChanged;
+  //final ValueChanged<SwitchPosition>? onChanged;
+  final VoidCallback? onChanged;
+  //final ValueChanged<bool>? onChanged;
 
   const TripleSwitchUI({super.key,
-    this.position,
+    required this.position,
     this.decorationTrackOn,
     this.decorationTrackOff,
     this.decorationTrackWait,
@@ -84,14 +87,17 @@ class TripleSwitchUI extends StatelessWidget {
     }
 
     return GestureDetector(
-      onTap: () {
-        if (onChanged != null) {
-          SwitchPosition newPos = position == SwitchPosition.on ? SwitchPosition.off : SwitchPosition.on;
-          timeout == null
-              ? onChanged!(newPos)
-              : onChanged!(SwitchPosition.wait);
-        }
-      },
+      onTap: onChanged,
+      //{
+        // if (onChanged != null) {
+        //   SwitchPosition newPos = position == SwitchPosition.on ? SwitchPosition.off : SwitchPosition.on;
+        //   //bool newPos = !position;
+        //   timeout == null
+        //       ? onChanged!(newPos)
+        //       : onChanged!(SwitchPosition.wait);
+        //       //: onChanged!(position);
+        // }
+      //},
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         decoration: onChanged != null ? trackDecor : defaultDecorationTrackDisabled,
