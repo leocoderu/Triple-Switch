@@ -11,21 +11,28 @@ enum SwitchPosition {on, wait, off}
 class TripleSwitch extends StatelessWidget {
   final String id;
   final SwitchPosition? value;
+  final bool? result;
   final int? timeoutOffOn;
   final int? timeoutOnOff;
-  final ValueChanged<SwitchPosition>? onChanged;
+  final ValueChanged<SwitchPosition?>? onChanged;
 
-  const TripleSwitch({super.key, required this.id, this.value, this.timeoutOffOn, this.timeoutOnOff, this.onChanged});
+  const TripleSwitch({super.key, required this.id, this.value, this.result, this.timeoutOffOn, this.timeoutOnOff, this.onChanged});
 
   //Get Timeout by dependence from direction Off->On / On->Off
   int timeoutByDirection(SwitchPosition? swp) =>
       ((swp == SwitchPosition.on) ? timeoutOnOff : timeoutOffOn) ?? 0;
 
+  SwitchPosition? non(SwitchPosition? value) {
+    if (value == null) return null;
+    return (value == SwitchPosition.on) ? SwitchPosition.off : SwitchPosition.on;
+  }
+
   @override
   Widget build(BuildContext context) {
 
-    final SwitchState switchers = SwitchState()..data.addAll({id : SwitchModel()});
-    print('Keys: ${switchers.data.keys}');
+    //final SwitchState switchers = SwitchState()..data.addAll({id : SwitchModel()});
+    final SwitchState switchers = SwitchState();
+    //print('Keys: ${switchers.data.keys}');
 
     return ListenableBuilder(
           listenable: switchers,
@@ -33,8 +40,10 @@ class TripleSwitch extends StatelessWidget {
             print('Switch notifier position: ${switchers.data[id]!.position}');
             print('Switch notifier timout:   ${switchers.data[id]!.timeout}');
             return TripleSwitchUI(
-              position: switchers.data[id]!.position ?? value,
+              position: (result == null) ? (switchers.data[id]!.position ?? value) : (result! ? non(value) : value),
+              //position: switchers.data[id]!.position,
               timeout: switchers.data[id]!.timeout == 0 ? timeoutByDirection(switchers.data[id]!.position ?? value) : switchers.data[id]!.timeout,
+              //timeout: switchers.data[id]!.timeout,
               onChanged: () {
                 if (onChanged != null) {
                   if (timeoutByDirection(switchers.data[id]!.position ?? value) != 0) {
@@ -45,7 +54,9 @@ class TripleSwitch extends StatelessWidget {
                     // Set Switcher to new position
                     switchers.setPosition(id, (value == SwitchPosition.on) ? SwitchPosition.off : SwitchPosition.on);
                   }
-
+                  onChanged!(switchers.data[id]!.position);
+                } else {
+                  onChanged;
                 }
               },
 
@@ -74,10 +85,6 @@ class TripleSwitch extends StatelessWidget {
 //   //print('isolate finished');
 // }
 
-// Инверсия позиции тумблера
-// switchPosition iPos(switchPosition swPos) =>
-//     (swPos == switchPosition.on) ? switchPosition.off : switchPosition.on;
-//
 // Если Таймер еще идет и получен результат с Изолята, если результат положительный
 // Переключаем тумблер дальше, иначе возвращаем в исходную позицию
 // if ((timeOut != null) && (resData.exist)) {
