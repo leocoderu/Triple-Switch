@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:isolate';
 import 'package:flutter/material.dart';
 
-//import 'triple_switch.dart';
-
 class SwitchModel {
   bool position;        /// Position of switch, true - On / false - Off
   int?  timeout;        /// Timer value (0 - N), null is timer off
@@ -50,7 +48,8 @@ class SwitchState extends ChangeNotifier {
     data[name]!.success = null;                       /// Drop the previous success result
     data[name]!._isoTime = null;
     data[name]!._isoFunc = null;
-    notifyListeners();                                /// Notify listeners TODO: Может быть избыточное уведомление, т.к. оно происходит в _listenTimer
+    /// TODO: Может быть избыточное уведомление, т.к. оно происходит ниже в _listenTimer
+    notifyListeners();                                /// Notify listeners
 
     /// Start isolate for timer
     data[name]!._isoTime = await Isolate.spawn(_isoTimer, [timerPort.sendPort, data[name]!.timeout!]);
@@ -88,7 +87,8 @@ class SwitchState extends ChangeNotifier {
       if (data[name]!.saveFunc != null) {             /// If save function exists
         data[name]!.saveFunc!(data[name]!.position);  /// Send position to save function
       }
-      notifyListeners();      /// Notify Listeners TODO: Может быть это не нужно!!! Уведомление слушателей происходит в ф-ции stop
+      /// TODO: Может быть это не нужно!!! Уведомление слушателей происходит в ф-ции ниже stop
+      notifyListeners();      /// Notify Listeners
 
       portFunc.close();       /// Stop Listener
       portTimer.close();      /// Stop Listener

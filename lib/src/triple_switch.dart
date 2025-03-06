@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // Import Modules
 import 'switch_state.dart';
-import 'default_decoration_switch.dart';
+import 'decoration_switch.dart';
 
 //enum SwitchPosition {on, wait, off}
 
@@ -20,6 +20,11 @@ class TripleSwitch extends StatelessWidget {
   final List<dynamic>? argumentsOnOff;          /// Arguments of the called heavy function, On -> Off
   //final ValueChanged<bool>? onChanged;          /// Event returns new position of switch, it may be old or new position
 
+  final int? animateDuration;
+
+  final Size? sizeTrack;
+  final Size? sizeSlider;
+
   final BoxDecoration? decorationTrackOn;
   final BoxDecoration? decorationTrackOff;
   final BoxDecoration? decorationTrackWait;
@@ -30,16 +35,11 @@ class TripleSwitch extends StatelessWidget {
   final BoxDecoration? decorationSliderWait;
   final BoxDecoration? decorationSliderDisabled;
 
-  final Size? sizeTrack;
-  final Size? sizeSlider;
-
-  final int?  timeout;
-  final String? textOn;
-  final String? textOff;
-  final String? textWait;
-  final String? textDisabled;
-  final TextStyle? textStyleEnabled;
-  final TextStyle? textStyleDisabled;
+  final Widget? on;
+  final Widget? off;
+  final Widget? wait;
+  final Widget? disabled;
+  final TextStyle? timerStyle;
 
   const TripleSwitch({
     super.key,
@@ -53,6 +53,9 @@ class TripleSwitch extends StatelessWidget {
     this.functionOnOff,
     this.argumentsOnOff,
     //this.onChanged,
+    this.animateDuration,
+    this.sizeTrack,
+    this.sizeSlider,
     this.decorationTrackOn,
     this.decorationTrackOff,
     this.decorationTrackWait,
@@ -61,45 +64,16 @@ class TripleSwitch extends StatelessWidget {
     this.decorationSliderOff,
     this.decorationSliderWait,
     this.decorationSliderDisabled,
-    this.sizeTrack,
-    this.sizeSlider,
-    this.timeout,
-    this.textOn,
-    this.textOff,
-    this.textWait,
-    this.textDisabled,
-    this.textStyleEnabled = defaultTextStyleEnabled,
-    this.textStyleDisabled = defaultTextStyleDisabled,
+    this.on,
+    this.off,
+    this.wait,
+    this.disabled,
+    this.timerStyle,
   });
 
   @override
   Widget build(BuildContext context) {
     final SwitchState switches = SwitchState();
-
-    BoxDecoration? trackDecor;
-    BoxDecoration? sliderDecor;
-    Alignment? pos;
-    String? text;
-
-    if (switches.data[id]!.timeout != null) {
-      trackDecor = decorationTrackWait ?? defaultDecorationTrackWait;
-      sliderDecor = decorationSliderWait ?? defaultDecorationSliderWait;
-      pos = Alignment.center;
-      text = textWait ?? timeout.toString();
-    } else {
-      if (switches.data[id]!.position) {
-        trackDecor = decorationTrackOn ?? defaultDecorationTrackOn;
-        sliderDecor = decorationSliderOn ?? defaultDecorationSliderOn;
-        pos = Alignment.centerRight;
-        text = textOn;
-      } else  {
-        trackDecor = decorationTrackOff ?? defaultDecorationTrackOff;
-        sliderDecor = decorationSliderOff ?? defaultDecorationSliderOff;
-        pos = Alignment.centerLeft;
-        text = textOff;
-      }
-    }
-
     return ListenableBuilder(
       listenable: switches,
       builder: (BuildContext ctx, child) {
@@ -115,19 +89,40 @@ class TripleSwitch extends StatelessWidget {
             ///: null; //switches.stop(id); Нет смысла останавливать запрос, т.к. он д/б отработан
           },
           child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            decoration: (enabled == false) ? defaultDecorationTrackDisabled : trackDecor,
-            alignment: (enabled == false) ? Alignment.center : pos,
-            width: sizeTrack != null ? sizeTrack!.width : 60.0,
-            height: sizeTrack != null ? sizeTrack!.height : 30.0,
+            duration: Duration(milliseconds: animateDuration ?? 200),
+            decoration: (enabled == false)
+                ? defaultDecorationTrackDisabled
+                : (switches.data[id]!.timeout != null)
+                  ? decorationTrackWait ?? defaultDecorationTrackWait
+                  : (switches.data[id]!.position)
+                    ? decorationTrackOn ?? defaultDecorationTrackOn
+                    : decorationTrackOff ?? defaultDecorationTrackOff,
+            alignment: (enabled == false)
+                ? Alignment.center
+                : (switches.data[id]!.timeout != null)
+                ? Alignment.center
+                : (switches.data[id]!.position)
+                ? Alignment.centerRight
+                : Alignment.centerLeft,
+            width: sizeTrack != null ? sizeTrack!.width : 200.0,
+            height: sizeTrack != null ? sizeTrack!.height : 100.0,
             child: Container(
-              decoration: (enabled == false) ? defaultDecorationSliderDisabled : sliderDecor,
+              decoration: (enabled == false)
+                  ? defaultDecorationSliderDisabled
+                  : (switches.data[id]!.timeout != null)
+                    ? decorationSliderWait ?? defaultDecorationSliderWait
+                    : (switches.data[id]!.position)
+                      ? decorationSliderOn ?? defaultDecorationSliderOn
+                      : decorationSliderOff ?? defaultDecorationSliderOff,
               alignment: Alignment.center,
-              width:  sizeSlider != null ? sizeSlider!.width : 30.0,
-              height: sizeSlider != null ? sizeSlider!.height : 30.0,
-              child: Text((enabled == false) ? (textDisabled ?? '') : (text ?? ''),
-                style: (enabled == false) ? textStyleDisabled : textStyleEnabled,
-              ),
+              width:  sizeSlider != null ? sizeSlider!.width : 100.0,
+              height: sizeSlider != null ? sizeSlider!.height : 100.0,
+              child: (enabled == false)
+                  ? disabled
+                  : (switches.data[id]!.timeout != null)
+                    ? wait ?? Text(switches.data[id]!.timeout.toString(), style: timerStyle)
+                    : (switches.data[id]!.position)
+                      ? on : off,
             ),
           ),
         );
