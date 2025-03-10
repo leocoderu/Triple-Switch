@@ -1,24 +1,23 @@
-// Import Dart and Flutter
 import 'package:flutter/material.dart';
 
 /// Import Modules
 import 'switch_state.dart';
 import 'decoration_switch.dart';
 
-//enum SwitchPosition {on, wait, off}
+//enum SwitchPosition {on, wait, off}           /// rudimentary
 
 class TripleSwitch extends StatelessWidget {
 
   final String id;                              /// Unique ID of switch
   final bool? enabled;                          /// Enabled or Disabled switch
-  //final bool value;                             /// Default value of switch, true - On / false - Off
+  //final bool value;                           /// Default value of switch, true - On / false - Off
   final int? timeoutOffOn;                      /// Timeout for wait switching Off -> On
   final int? timeoutOnOff;                      /// Timeout for wait switching On -> Off
   final Function? functionOffOn;                /// Calling a heavy function during switching Off -> On
   final Function? functionOnOff;                /// Calling a heavy function during switching On -> Off
   final List<dynamic>? argumentsOffOn;          /// Arguments of the called heavy function, Off -> On
   final List<dynamic>? argumentsOnOff;          /// Arguments of the called heavy function, On -> Off
-  //final ValueChanged<bool>? onChanged;          /// Event returns new position of switch, it may be old or new position
+  //final ValueChanged<bool>? onChanged;        /// Event returns new position of switch, it may be old or new position
 
   final int? animateDuration;
 
@@ -79,14 +78,15 @@ class TripleSwitch extends StatelessWidget {
       builder: (BuildContext ctx, child) {
         return GestureDetector(
           onTap: () {
-            if(switches.data[id]!.timeout == null) { // preventing a restart
+            if(switches.data[id]!.timeout == null) { /// preventing a restart
               switches.start(id,
                   switches.data[id]!.position ? timeoutOnOff : timeoutOffOn,
                   switches.data[id]!.position ? functionOnOff : functionOffOn,
                   switches.data[id]!.position ? argumentsOnOff : argumentsOffOn
               );
             }
-            ///: null; //switches.stop(id); Нет смысла останавливать запрос, т.к. он д/б отработан
+            ///: null; //switches.stop(id);
+            /// There is no point in stopping the request, as it must be processed!
           },
           child: AnimatedContainer(
             duration: Duration(milliseconds: animateDuration ?? 200),

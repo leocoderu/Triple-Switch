@@ -1,4 +1,3 @@
-// Import Dart and Flutter
 import 'package:flutter/material.dart';
 
 /// Decoration track if switch in ON position

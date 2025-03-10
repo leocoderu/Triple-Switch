@@ -1,24 +1,22 @@
-// Import Dart and Flutter
 import 'dart:async';
 import 'dart:isolate';
 import 'package:flutter/material.dart';
 
 class SwitchModel {
-  bool position;        /// Position of switch, true - On / false - Off
-  int?  timeout;        /// Timer value (0 - N), null is timer off
-  Isolate? _isoTime;    /// Isolate for Timer
-  Isolate? _isoFunc;    /// Isolate for Function
-  dynamic result;       /// Result value of heavy function, null is doesn't have a result
-  bool?  success;       /// Result state, null is doesn't have a result, true - success / false - error
+  bool position;              /// Position of switch, true - On / false - Off
+  int?  timeout;              /// Timer value (0 - N), null is timer off
+  Isolate? _isoTime;          /// Isolate for Timer
+  Isolate? _isoFunc;          /// Isolate for Function
+  dynamic result;             /// Result value of heavy function, null is doesn't have a result
+  bool?  success;             /// Result state, null is doesn't have a result, true - success / false - error
   Function(bool)? saveFunc;   /// Function for save result
 
   SwitchModel({this.position = false, this.saveFunc});  /// Default Constructor
 }
 
-
 class SwitchState extends ChangeNotifier {
 
-  /// Base of switches
+  /// List of switches
   Map<String, SwitchModel> data = {};
 
   /// Initialize Singleton
@@ -47,9 +45,9 @@ class SwitchState extends ChangeNotifier {
     data[name]!.timeout = time;                       /// Set timeout
     data[name]!.result  = null;                       /// Drop the previous result
     data[name]!.success = null;                       /// Drop the previous success result
-    data[name]!._isoTime = null;
-    data[name]!._isoFunc = null;
-    /// TODO: Может быть избыточное уведомление, т.к. оно происходит ниже в _listenTimer
+    data[name]!._isoTime = null;                      /// Drop timer isolate
+    data[name]!._isoFunc = null;                      /// Drop function isolate
+    /// TODO: There may be an excessive notification, as it occurs below in the _listenTimer
     notifyListeners();                                /// Notify listeners
 
     /// Start isolate for timer
@@ -66,11 +64,11 @@ class SwitchState extends ChangeNotifier {
   /// Listener for Timer port
   void _listenTimer(String name, ReceivePort portTimer, ReceivePort portFunc) {
     portTimer.listen((time) {
-      if (time == null) {     /// If Timer was complete
-        portTimer.close();    /// Stop Listener
-        portFunc.close();     /// Stop Listener
+      if (time == null) {         /// If Timer was complete
+        portTimer.close();        /// Stop Listener
+        portFunc.close();         /// Stop Listener
 
-        stop(name);           /// Stop Isolate
+        stop(name);               /// Stop Isolate
         return;
       }
 
@@ -81,38 +79,40 @@ class SwitchState extends ChangeNotifier {
 
   /// Listener for heavy function port
   void _listenFunc(String name, ReceivePort portFunc, ReceivePort portTimer) {
-    portFunc.listen((res) {             /// If result of heavy function was received
-      data[name]!.result = res[0];      /// Result of heavy function
-      data[name]!.success = res[1];     /// The result of successful operation
+    portFunc.listen((res) {                           /// If result of heavy function was received
+      data[name]!.result = res[0];                    /// Result of heavy function
+      data[name]!.success = res[1];                   /// The result of successful operation
       data[name]!.position = res[1] ? !data[name]!.position : data[name]!.position; /// Change switch position
       if (data[name]!.saveFunc != null) {             /// If save function exists
         data[name]!.saveFunc!(data[name]!.position);  /// Send position to save function
       }
-      /// TODO: Может быть это не нужно!!! Уведомление слушателей происходит в ф-ции ниже stop
-      notifyListeners();      /// Notify Listeners
+      /// TODO: Maybe it's not necessary!!! Listeners are notified in the function below stop
+      notifyListeners();                              /// Notify Listeners
 
-      portFunc.close();       /// Stop Listener
-      portTimer.close();      /// Stop Listener
+      portFunc.close();                               /// Stop Function Listener
+      portTimer.close();                              /// Stop Timer Listener
 
-      stop(name);             /// Stop Isolate
+      stop(name);                                     /// Stop Isolates
     });
   }
 
   /// Stop isolate
   Future<void> stop(String name) async {
-    if (data[name]!._isoTime == null) return;     /// If the isolation timer is not started, stop nothing.
+
+    /// If the isolation timer is not started, stop nothing.
+    if (data[name]!._isoTime == null) return;
 
     /// If heavy function isolate exists, kill him
     if (data[name]!._isoFunc != null) {
-      data[name]!._isoFunc!.kill();
-      data[name]!._isoFunc = null;
+      data[name]!._isoFunc!.kill();             /// Kill the function isolate
+      data[name]!._isoFunc = null;              /// Variable of function isolate set to null
     }
 
     /// Kill timer isolate
-    data[name]!._isoTime!.kill();
-    data[name]!._isoTime = null;
-    data[name]!.timeout = null;     /// Set timeout as null
-    notifyListeners();              /// Notify Listeners
+    data[name]!._isoTime!.kill();               /// Kill the timer isolate
+    data[name]!._isoTime = null;                /// Variable of timer isolate set to null
+    data[name]!.timeout = null;                 /// Set timeout as null
+    notifyListeners();                          /// Notify Listeners
   }
 
   /// Isolate function for Timer
