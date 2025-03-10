@@ -80,7 +80,7 @@ TripleSwitch(
 
 ## Additional information
 
-if timeout isn't set this switcher will be work like usually 2-position switcher.
-When widget "wait" don't initialize, the countdown timer is showing
-This switcher widget will gets different Design, assigned user. 
+    - if timeout isn't set this switcher will be work like usually 2-position switcher.
+    - When widget "wait" don't initialize, the countdown timer is showing
+    - This switcher widget will gets different Design, assigned user. 
 
