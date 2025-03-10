@@ -55,13 +55,3 @@ BoxDecoration defaultDecorationSliderDisabled = BoxDecoration(
   border: Border.all(color: const Color(0xFF908393), strokeAlign: BorderSide.strokeAlignOutside),
   color: const Color(0xFF908E93),
 );
-
-// const TextStyle defaultTextStyleEnabled = TextStyle(
-//   color: Color(0xFF58565C),
-//   fontSize: 13,
-// );
-//
-// const TextStyle defaultTextStyleDisabled = TextStyle(
-//   color: Color(0xFF908E93),
-//   fontSize: 13,
-// );
