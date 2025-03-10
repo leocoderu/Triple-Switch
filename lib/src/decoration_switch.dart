@@ -56,12 +56,12 @@ BoxDecoration defaultDecorationSliderDisabled = BoxDecoration(
   color: const Color(0xFF908E93),
 );
 
-const TextStyle defaultTextStyleEnabled = TextStyle(
-  color: Color(0xFF58565C),
-  fontSize: 13,
-);
-
-const TextStyle defaultTextStyleDisabled = TextStyle(
-  color: Color(0xFF908E93),
-  fontSize: 13,
-);
+// const TextStyle defaultTextStyleEnabled = TextStyle(
+//   color: Color(0xFF58565C),
+//   fontSize: 13,
+// );
+//
+// const TextStyle defaultTextStyleDisabled = TextStyle(
+//   color: Color(0xFF908E93),
+//   fontSize: 13,
+// );
