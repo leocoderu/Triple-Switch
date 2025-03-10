@@ -1,3 +1,3 @@
-## 1.0.0
-Create first stable version of Triple switch package.
+# 1.0.0 
 
+* First stable version of Triple switch package
