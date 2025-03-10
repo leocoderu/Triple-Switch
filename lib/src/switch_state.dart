@@ -115,7 +115,7 @@ class SwitchState extends ChangeNotifier {
     notifyListeners();                          /// Notify Listeners
   }
 
-  /// Isolate function for Timer
+  /// Isolate for Timer
   static Future<void> _isoTimer(List<dynamic> data) async {
     final SendPort sendPort = data[0];          /// First argument is port
     final int timeout = data[1];                /// Second argument is timeout
@@ -126,7 +126,7 @@ class SwitchState extends ChangeNotifier {
     sendPort.send(null);                        /// Send to the port null as completion of the isolate
   }
 
-  /// Isolate function for Heavy function
+  /// Isolate for Heavy function
   static Future<void> _isoFunction(List<dynamic> args) async {
     final SendPort sendPort = args[0];          /// First argument is port
     final Function func = args[1];              /// Second argument is function
