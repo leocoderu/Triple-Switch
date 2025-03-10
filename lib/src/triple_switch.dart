@@ -1,7 +1,7 @@
 // Import Dart and Flutter
 import 'package:flutter/material.dart';
 
-// Import Modules
+/// Import Modules
 import 'switch_state.dart';
 import 'decoration_switch.dart';
 

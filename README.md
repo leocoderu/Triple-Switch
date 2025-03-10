@@ -2,9 +2,11 @@ Three-position switcher with Wait state and timeout for operation complete.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+This package show switch with three position ON - WAIT - OFF.
+WAIT state is a state awaiting finish heavy operation like getting information from net.
+ON / OFF is a usual state of switch 
 
-## Getting started
+## Let's start
 
 Install package in pubspec.yaml file:
 ```yaml
