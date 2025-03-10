@@ -1,12 +1,10 @@
-Three-position switcher with Wait state and timeout for operation complete.
+## Triple Switch
 
-## Features
-
-This package show switch with three position ON - WAIT - OFF.
+Three-position switcher has three position ON - WAIT - OFF.
 WAIT state is a state awaiting finish heavy operation like getting information from net.
 ON / OFF is a usual state of switch 
 
-## Let's start
+## Installation
 
 Install package in pubspec.yaml file:
 ```yaml
