@@ -1,8 +1,6 @@
 name: triple_switch
 description: "Triple-position switch widget"
 
-#publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
 repository: https://github.com/leocoderu/triple_switch
 homepage: https://github.com/leocoderu/triple_switch
 
