@@ -1,4 +1,4 @@
-<div style="text-align:center"><img src="/screenshots/logo.png"><div>
+<p align="center"><img src="/screenshots/logo.png" height="100" alt="Triple Switch" /></p>
 
 ## Triple Switch
 
