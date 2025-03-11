@@ -1,11 +1,4 @@
-![Triple Switch](/screenshots/logo.png)
-
-
-<div style="text-align:center">
-    <img src="/screenshots/logo.png">
-</div>.
-
-
+<div style="text-align:center"><img src="/screenshots/logo.png"><div>
 
 ## Triple Switch
 
