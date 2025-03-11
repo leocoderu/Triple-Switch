@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
   shared_preferences: ^2.5.2
-  triple_switch:
-    git: https://github.com/leocoderu/triple_switch
+  triple_switch: ^1.0.0
+
   cupertino_icons: ^1.0.8
 
 dev_dependencies:
