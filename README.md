@@ -1,22 +1,9 @@
+![Triple Switch](/screenshots/logo.png)
 ## Triple Switch
 
-Three-position switcher has three position ON - WAIT - OFF.
+Three-position switch has three states ON - WAIT - OFF.
 WAIT state is a state awaiting finish heavy operation like getting information from net.
 ON / OFF is a usual state of switch 
-
-## Installation
-
-Install package in pubspec.yaml file:
-```yaml
-dependencies:
-  triple_switch:
-    git: https://github.com/leocoderu/triple_switch
-```
-
-Add package to dart module: 
-```dart
-import 'package:triple_switch/triple_switch.dart';
-```
 
 ## Usage
 
@@ -74,6 +61,17 @@ TripleSwitch(
   
   timerStyle: TextStyle(...),                   /// Style of text for timeout
 )
+```
+
+```dart
+/// Heavy Function should be next format...
+/// Receive List of arguments different types
+/// And return the List with first element result in different type, and second element successful result in boolean type 
+Future<List<dynamic>> heavyFunction1(List<dynamic> args) async {
+  ///... Some heavy and long operations
+  
+  return [total, res];
+}
 ```
 
 ## Additional information

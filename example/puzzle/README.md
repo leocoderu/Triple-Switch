@@ -1,3 +1,3 @@
 # puzzle 
 
-This app accumulate knowledge from another apps for work with triple_switch package
+This is a test application to demonstrate how the triple_switch package works.
