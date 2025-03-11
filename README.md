@@ -1,4 +1,11 @@
 ![Triple Switch](/screenshots/logo.png)
+
+
+<div id="header" align="center">
+  <img src="/screenshots/logo.png">
+</div>
+
+
 ## Triple Switch
 
 Three-position switch has three states ON - WAIT - OFF.
@@ -7,10 +14,9 @@ ON / OFF is a usual state of switch
 
 ## Usage
 
+In main setup, the initial state of switches and stateful functions
 ```dart
-  /// In main setup
-  /// The initial state of switches and stateful functions
-  SwitchState().data = {
+SwitchState().data = {
     'stringIdentifier1':  SwitchModel(
         position: await readData('switch1'),          /// Read state from same Storage
         saveFunc: (val) => saveData('switch1', val),  /// Save state to some Storage
@@ -24,11 +30,11 @@ ON / OFF is a usual state of switch
         saveFunc: (val) => saveData('switch3', val)   /// Save state to some Storage
     ),
     'stringIdentifier4': SwitchModel(),               /// Can use without usage statement
-  };
+};
 ```
 
+Use the widget
 ```dart
-/// Use widget
 TripleSwitch(
   id: 'stringIdentifier1',                      /// String Unique Identifier of switch  
   enabled: true,                                /// Enabled or Disabled switch
@@ -63,10 +69,10 @@ TripleSwitch(
 )
 ```
 
-```dart
-/// Heavy Function should be next format...
-/// Receive List of arguments different types
-/// And return the List with first element result in different type, and second element successful result in boolean type 
+Heavy Function should be next format...
+Receive List of arguments different types
+And return the List with first element result in different type, and second element successful result in boolean type
+```dart 
 Future<List<dynamic>> heavyFunction1(List<dynamic> args) async {
   ///... Some heavy and long operations
   
