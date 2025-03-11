@@ -63,9 +63,9 @@ TripleSwitch(
 )
 ```
 
-Heavy Function should be next format...
-Receive List of arguments different types
-And return the List with first element result in different type, and second element successful result in boolean type
+A heavy function should be of the following format, 
+it gets a list of arguments of different types and returns a list in which the first element is the result of an operation of a different type, 
+and the second element is the result of the success of the operation - has a logical type.
 ```dart 
 Future<List<dynamic>> heavyFunction1(List<dynamic> args) async {
   ///... Some heavy and long operations
