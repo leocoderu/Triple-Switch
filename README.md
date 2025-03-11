@@ -1,9 +1,7 @@
 ![Triple Switch](/screenshots/logo.png)
 
 
-<div id="header" align="center">
-  <img src="/screenshots/logo.png">
-</div>
+<img src="/screenshots/logo.png">
 
 
 ## Triple Switch
