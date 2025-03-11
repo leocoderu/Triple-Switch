@@ -28,7 +28,7 @@ ON / OFF is a usual state of switch
 ```
 
 ```dart
-/// In builder
+/// Use widget
 TripleSwitch(
   id: 'stringIdentifier1',                      /// String Unique Identifier of switch  
   enabled: true,                                /// Enabled or Disabled switch
@@ -80,3 +80,8 @@ Future<List<dynamic>> heavyFunction1(List<dynamic> args) async {
     - When widget "wait" don't initialize, the countdown timer is showing
     - This switcher widget will gets different Design, assigned user. 
 
+## Gallery
+
+![puzzle1](/screenshots/puzzle_1.png)![puzzle2](/screenshots/puzzle_2.png)
+![puzzle3](/screenshots/puzzle_3.png)![puzzle4](/screenshots/puzzle_4.png)
+![puzzle5](/screenshots/puzzle_5.png)![puzzle6](/screenshots/puzzle_6.gif)
