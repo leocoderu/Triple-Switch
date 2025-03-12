@@ -103,7 +103,7 @@ class TripleSwitch extends StatelessWidget {
               duration: Duration(milliseconds: animateDuration ?? 200),
               decoration: (enabled == false)
                   ? defaultDecorationTrackDisabled
-                  : ((value ?? false) ^ (mirroring ?? false))
+                  : (value ?? false)
                     ? decorationTrackOn ?? defaultDecorationTrackOn
                     : decorationTrackOff ?? defaultDecorationTrackOff,
               alignment: (enabled == false)
@@ -116,7 +116,7 @@ class TripleSwitch extends StatelessWidget {
               child: Container(
                 decoration: (enabled == false)
                     ? defaultDecorationSliderDisabled
-                    : ((value ?? false) ^ (mirroring ?? false))
+                    : (value ?? false)
                       ? decorationSliderOn ?? defaultDecorationSliderOn
                       : decorationSliderOff ?? defaultDecorationSliderOff,
                 alignment: Alignment.center,
