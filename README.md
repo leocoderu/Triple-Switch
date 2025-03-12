@@ -2,9 +2,7 @@
 
 ## Triple Switch
 
-Three-position switch has three states ON - WAIT - OFF.
-WAIT state is a state awaiting finish heavy operation like getting information from net.
-ON / OFF is a usual state of switch 
+Three-position switch has three states ON - WAIT - OFF. WAIT is a state awaiting finish heavy operation like getting information from net. ON / OFF is a usual state of switch 
 
 ## Usage
 
