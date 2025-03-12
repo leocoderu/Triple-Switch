@@ -55,3 +55,4 @@ BoxDecoration defaultDecorationSliderDisabled = BoxDecoration(
   border: Border.all(color: const Color(0xFF908393), strokeAlign: BorderSide.strokeAlignOutside),
   color: const Color(0xFF908E93),
 );
+
