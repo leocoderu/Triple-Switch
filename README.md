@@ -110,4 +110,4 @@ Future<List<dynamic>> heavyFunction1(List<dynamic> args) async {
 ## Planned future changes
 
     1. Figure out what you can replace the isolate with for the web version
-    2. Replace the logo with a more detailed one
+    
