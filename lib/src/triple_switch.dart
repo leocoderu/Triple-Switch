@@ -98,7 +98,38 @@ class TripleSwitch extends StatelessWidget {
             ///: null; //switches.stop(id);
             /// There is no point in stopping the request, as it must be processed!
           },
-          child: AnimatedContainer(
+          child:  (id == null)
+            ? AnimatedContainer(
+              duration: Duration(milliseconds: animateDuration ?? 200),
+              decoration: (enabled == false)
+                  ? defaultDecorationTrackDisabled
+                  : ((value ?? false) ^ (mirroring ?? false))
+                    ? decorationTrackOn ?? defaultDecorationTrackOn
+                    : decorationTrackOff ?? defaultDecorationTrackOff,
+              alignment: (enabled == false)
+                  ? Alignment.center
+                  : ((value ?? false) ^ (mirroring ?? false))
+                    ? Alignment.centerRight
+                    : Alignment.centerLeft,
+              width: sizeTrack != null ? sizeTrack!.width : 200.0,
+              height: sizeTrack != null ? sizeTrack!.height : 100.0,
+              child: Container(
+                decoration: (enabled == false)
+                    ? defaultDecorationSliderDisabled
+                    : ((value ?? false) ^ (mirroring ?? false))
+                      ? decorationSliderOn ?? defaultDecorationSliderOn
+                      : decorationSliderOff ?? defaultDecorationSliderOff,
+                alignment: Alignment.center,
+                width:  sizeSlider != null ? sizeSlider!.width : 100.0,
+                height: sizeSlider != null ? sizeSlider!.height : 100.0,
+                child: (enabled == false)
+                    ? disabled
+                    : ((value ?? false) ^ (mirroring ?? false))
+                      ? on : off,
+              ),
+            )
+
+            : AnimatedContainer(
             duration: Duration(milliseconds: animateDuration ?? 200),
             decoration: (enabled == false)
                 ? defaultDecorationTrackDisabled
