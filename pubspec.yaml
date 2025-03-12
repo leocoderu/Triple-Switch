@@ -3,7 +3,7 @@ description: "Three-position switch has three states ON - WAIT - OFF.
 WAIT state is a state awaiting finish heavy operation like getting information from net. 
 ON / OFF is a usual state of switch"
 
-version: 1.0.0
+version: 1.1.0
 
 repository: https://github.com/leocoderu/triple_switch
 homepage: https://leocode.ru

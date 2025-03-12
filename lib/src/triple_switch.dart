@@ -8,16 +8,17 @@ import 'decoration_switch.dart';
 
 class TripleSwitch extends StatelessWidget {
 
-  final String id;                              /// Unique ID of switch
+  final String? id;                             /// Unique ID of switch
   final bool? enabled;                          /// Enabled or Disabled switch
-  //final bool value;                           /// Default value of switch, true - On / false - Off
+  final bool? value;                            /// Default value of switch, true - On / false - Off
+  final bool? mirroring;                        /// Mirroring by horizontal functionality
   final int? timeoutOffOn;                      /// Timeout for wait switching Off -> On
   final int? timeoutOnOff;                      /// Timeout for wait switching On -> Off
   final Function? functionOffOn;                /// Calling a heavy function during switching Off -> On
   final Function? functionOnOff;                /// Calling a heavy function during switching On -> Off
   final List<dynamic>? argumentsOffOn;          /// Arguments of the called heavy function, Off -> On
   final List<dynamic>? argumentsOnOff;          /// Arguments of the called heavy function, On -> Off
-  //final ValueChanged<bool>? onChanged;        /// Event returns new position of switch, it may be old or new position
+  final ValueChanged<bool>? onChanged;          /// Event returns new position of switch, it may be old or new position
 
   final int? animateDuration;
 
@@ -42,16 +43,17 @@ class TripleSwitch extends StatelessWidget {
 
   const TripleSwitch({
     super.key,
-    required this.id,
-    //required this.value,
+    this.id,
+    this.value,
     this.enabled,
+    this.mirroring,
     this.timeoutOffOn,
     this.timeoutOnOff,
     this.argumentsOffOn,
     this.functionOffOn,
     this.functionOnOff,
     this.argumentsOnOff,
-    //this.onChanged,
+    this.onChanged,
     this.animateDuration,
     this.sizeTrack,
     this.sizeSlider,
@@ -78,8 +80,16 @@ class TripleSwitch extends StatelessWidget {
       builder: (BuildContext ctx, child) {
         return GestureDetector(
           onTap: () {
-            if(switches.data[id]!.timeout == null) { /// preventing a restart
-              switches.start(id,
+            /// If id is null, switch will work like usual switch
+            /// and return inverse of entrance value
+            if (id == null) {
+              if (onChanged != null) {return onChanged!(!(value ?? false));}
+              return;
+            }
+
+            /// preventing a restart
+            if(switches.data[id]!.timeout == null) {
+              switches.start(id!,
                   switches.data[id]!.position ? timeoutOnOff : timeoutOffOn,
                   switches.data[id]!.position ? functionOnOff : functionOffOn,
                   switches.data[id]!.position ? argumentsOnOff : argumentsOffOn
@@ -94,16 +104,16 @@ class TripleSwitch extends StatelessWidget {
                 ? defaultDecorationTrackDisabled
                 : (switches.data[id]!.timeout != null)
                   ? decorationTrackWait ?? defaultDecorationTrackWait
-                  : (switches.data[id]!.position)
+                  : (switches.data[id]!.position ^ (mirroring ?? false))
                     ? decorationTrackOn ?? defaultDecorationTrackOn
                     : decorationTrackOff ?? defaultDecorationTrackOff,
             alignment: (enabled == false)
                 ? Alignment.center
                 : (switches.data[id]!.timeout != null)
-                ? Alignment.center
-                : (switches.data[id]!.position)
-                ? Alignment.centerRight
-                : Alignment.centerLeft,
+                  ? Alignment.center
+                  : (switches.data[id]!.position ^ (mirroring ?? false))
+                    ? Alignment.centerRight
+                    : Alignment.centerLeft,
             width: sizeTrack != null ? sizeTrack!.width : 200.0,
             height: sizeTrack != null ? sizeTrack!.height : 100.0,
             child: Container(
@@ -111,7 +121,7 @@ class TripleSwitch extends StatelessWidget {
                   ? defaultDecorationSliderDisabled
                   : (switches.data[id]!.timeout != null)
                     ? decorationSliderWait ?? defaultDecorationSliderWait
-                    : (switches.data[id]!.position)
+                    : (switches.data[id]!.position ^ (mirroring ?? false))
                       ? decorationSliderOn ?? defaultDecorationSliderOn
                       : decorationSliderOff ?? defaultDecorationSliderOff,
               alignment: Alignment.center,
@@ -121,7 +131,7 @@ class TripleSwitch extends StatelessWidget {
                   ? disabled
                   : (switches.data[id]!.timeout != null)
                     ? wait ?? Text(switches.data[id]!.timeout.toString(), style: timerStyle)
-                    : (switches.data[id]!.position)
+                    : (switches.data[id]!.position ^ (mirroring ?? false))
                       ? on : off,
             ),
           ),

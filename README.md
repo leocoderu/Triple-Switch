@@ -76,7 +76,7 @@ Future<List<dynamic>> heavyFunction1(List<dynamic> args) async {
 
 ## Additional information
 
-    - if timeout isn't set this switcher will be work like usually 2-position switcher.
+    - if timeout isn't set this switch will be work like usually 2-position switcher.
     - When widget "wait" don't initialize, the countdown timer is showing
     - This switcher widget will gets different Design, assigned user. 
 
@@ -108,3 +108,12 @@ Future<List<dynamic>> heavyFunction1(List<dynamic> args) async {
         </tr>
     </table>
 </div>
+
+## TODO in a future
+
+    ~1. Add "value" and "onChange()" properties, same usual Switch On/Off~
+    ~2. Add switch mirroring~
+    ~3. Add Example to pub.dev~
+    4. Add to Gallery images switch with different design
+    5. Figure out what you can replace the isolate with for the web version
+    6. Replace the logo with a more detailed one
