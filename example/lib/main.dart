@@ -93,8 +93,16 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+
+  bool sw = false;
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +132,7 @@ class SettingsPage extends StatelessWidget {
                     on: Text('ON'),
                     off: Text('OFF'),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 30),
                   Text((switches.data['switch2']!.result != null)
                       ? '${switches.data['switch2']!.result.toString()} ( ${switches.data['switch2']!.success.toString()} )'
                       : 'No result'
@@ -138,9 +146,9 @@ class SettingsPage extends StatelessWidget {
                       argumentsOffOn: [223000000, 'Second Func'],
                       argumentsOnOff: null,
                       on: Icon(Icons.play_arrow),
-                      off: Icon(Icons.stop)
+                      off: Icon(Icons.stop),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 30),
                   Text((switches.data['switch3']!.result != null)
                       ? '${switches.data['switch3']!.result.toString()} ( ${switches.data['switch3']!.success.toString()} )'
                       : 'No result'
@@ -152,6 +160,14 @@ class SettingsPage extends StatelessWidget {
                     argumentsOffOn: [16, 2],
                     on: Text('STARTED'),
                     off: Text('STOPPED'),
+                    sizeSlider: Size(70, 48),
+                  ),
+                  const SizedBox(height: 40),
+                  TripleSwitch(
+                    value: sw,
+                    onChanged: (value) => setState(() => sw = value),
+                    sizeTrack: Size(80, 20),
+                    sizeSlider: Size(10, 40),
                   ),
                 ],
               );

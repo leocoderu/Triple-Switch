@@ -312,11 +312,10 @@ packages:
   triple_switch:
     dependency: "direct main"
     description:
-      name: triple_switch
-      sha256: f7d8af94e5e356a9d040e1dd4ad7131b113329dfa00553494bb25d4493030788
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
+      path: ".."
+      relative: true
+    source: path
+    version: "1.1.0"
   vector_math:
     dependency: transitive
     description:

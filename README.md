@@ -109,11 +109,7 @@ Future<List<dynamic>> heavyFunction1(List<dynamic> args) async {
     </table>
 </div>
 
-## TODO in a future
+## Planned future changes
 
-    ~1. Add "value" and "onChange()" properties, same usual Switch On/Off~
-    ~2. Add switch mirroring~
-    ~3. Add Example to pub.dev~
-    4. Add to Gallery images switch with different design
-    5. Figure out what you can replace the isolate with for the web version
-    6. Replace the logo with a more detailed one
+    1. Figure out what you can replace the isolate with for the web version
+    2. Replace the logo with a more detailed one

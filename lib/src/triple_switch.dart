@@ -1,46 +1,92 @@
 import 'package:flutter/material.dart';
 
-/// Import Modules
 import 'switch_state.dart';
 import 'decoration_switch.dart';
 
-//enum SwitchPosition {on, wait, off}           /// rudimentary
-
 class TripleSwitch extends StatelessWidget {
 
-  final String? id;                             /// Unique ID of switch
-  final bool? enabled;                          /// Enabled or Disabled switch
-  final bool? value;                            /// Default value of switch, true - On / false - Off
-  final bool? mirroring;                        /// Mirroring by horizontal functionality
-  final int? timeoutOffOn;                      /// Timeout for wait switching Off -> On
-  final int? timeoutOnOff;                      /// Timeout for wait switching On -> Off
-  final Function? functionOffOn;                /// Calling a heavy function during switching Off -> On
-  final Function? functionOnOff;                /// Calling a heavy function during switching On -> Off
-  final List<dynamic>? argumentsOffOn;          /// Arguments of the called heavy function, Off -> On
-  final List<dynamic>? argumentsOnOff;          /// Arguments of the called heavy function, On -> Off
-  final ValueChanged<bool>? onChanged;          /// Event returns new position of switch, it may be old or new position
+  /// Unique ID of switch
+  final String? id;
 
+  /// Enabled or Disabled switch
+  final bool? enabled;
+
+  /// Default value of switch, true - On / false - Off
+  final bool? value;
+
+  /// Mirroring by horizontal functionality
+  final bool? mirroring;
+
+  /// Timeout for wait switching Off -> On
+  final int? timeoutOffOn;
+
+  /// Timeout for wait switching On -> Off
+  final int? timeoutOnOff;
+
+  /// Calling a heavy function during switching Off -> On
+  final Function? functionOffOn;
+
+  /// Calling a heavy function during switching On -> Off
+  final Function? functionOnOff;
+
+  /// Arguments of the called heavy function, Off -> On
+  final List<dynamic>? argumentsOffOn;
+
+  /// Arguments of the called heavy function, On -> Off
+  final List<dynamic>? argumentsOnOff;
+
+  /// Event returns new position of switch, it may be old or new position
+  final ValueChanged<bool>? onChanged;
+
+  /// Set duration of animation
   final int? animateDuration;
 
+  /// Size of track of switch width and height
   final Size? sizeTrack;
+
+  /// Size of slider of switch width and height
   final Size? sizeSlider;
 
+  /// Decoration track in ON position
   final BoxDecoration? decorationTrackOn;
+
+  /// Decoration track in OFF position
   final BoxDecoration? decorationTrackOff;
+
+  /// Decoration track in WAIT position
   final BoxDecoration? decorationTrackWait;
+
+  /// Decoration track if switch is disabled
   final BoxDecoration? decorationTrackDisabled;
 
+  /// Decoration slider in ON position
   final BoxDecoration? decorationSliderOn;
+
+  /// Decoration slider in OFF position
   final BoxDecoration? decorationSliderOff;
+
+  /// Decoration slider in WAIT position
   final BoxDecoration? decorationSliderWait;
+
+  /// Decoration slider if switch is disabled
   final BoxDecoration? decorationSliderDisabled;
 
+  /// The widget inside the slider is in the "ON" position
   final Widget? on;
+
+  /// The widget inside the slider is in the "OFF" position
   final Widget? off;
+
+  /// The widget inside the slider is in the "WAIT" position
   final Widget? wait;
+
+  /// The widget inside the slider if switch is disabled
   final Widget? disabled;
+
+  /// Style of text for timer on the slider
   final TextStyle? timerStyle;
 
+  /// Constructor
   const TripleSwitch({
     super.key,
     this.id,
@@ -80,6 +126,10 @@ class TripleSwitch extends StatelessWidget {
       builder: (BuildContext ctx, child) {
         return GestureDetector(
           onTap: () {
+
+            /// If switch is disabled, we're not doing anything
+            if (enabled == false) return;
+
             /// If id is null, switch will work like usual switch
             /// and return inverse of entrance value
             if (id == null) {
@@ -87,7 +137,7 @@ class TripleSwitch extends StatelessWidget {
               return;
             }
 
-            /// preventing a restart
+            /// Preventing a restart
             if(switches.data[id]!.timeout == null) {
               switches.start(id!,
                   switches.data[id]!.position ? timeoutOnOff : timeoutOffOn,
@@ -98,74 +148,100 @@ class TripleSwitch extends StatelessWidget {
             ///: null; //switches.stop(id);
             /// There is no point in stopping the request, as it must be processed!
           },
-          child:  (id == null)
-            ? AnimatedContainer(
-              duration: Duration(milliseconds: animateDuration ?? 200),
-              decoration: (enabled == false)
-                  ? defaultDecorationTrackDisabled
-                  : (value ?? false)
-                    ? decorationTrackOn ?? defaultDecorationTrackOn
-                    : decorationTrackOff ?? defaultDecorationTrackOff,
-              alignment: (enabled == false)
-                  ? Alignment.center
-                  : ((value ?? false) ^ (mirroring ?? false))
-                    ? Alignment.centerRight
-                    : Alignment.centerLeft,
-              width: sizeTrack != null ? sizeTrack!.width : 200.0,
-              height: sizeTrack != null ? sizeTrack!.height : 100.0,
-              child: Container(
-                decoration: (enabled == false)
-                    ? defaultDecorationSliderDisabled
-                    : (value ?? false)
-                      ? decorationSliderOn ?? defaultDecorationSliderOn
-                      : decorationSliderOff ?? defaultDecorationSliderOff,
-                alignment: Alignment.center,
-                width:  sizeSlider != null ? sizeSlider!.width : 100.0,
-                height: sizeSlider != null ? sizeSlider!.height : 100.0,
-                child: (enabled == false)
-                    ? disabled
-                    : (value ?? false)
-                      ? on : off,
-              ),
-            )
+          child: Container(
+            child: Stack(
+              clipBehavior: Clip.none,
 
-            : AnimatedContainer(
-            duration: Duration(milliseconds: animateDuration ?? 200),
-            decoration: (enabled == false)
-                ? defaultDecorationTrackDisabled
-                : (switches.data[id]!.timeout != null)
-                  ? decorationTrackWait ?? defaultDecorationTrackWait
-                  : (switches.data[id]!.position ^ (mirroring ?? false))
-                    ? decorationTrackOn ?? defaultDecorationTrackOn
-                    : decorationTrackOff ?? defaultDecorationTrackOff,
-            alignment: (enabled == false)
-                ? Alignment.center
-                : (switches.data[id]!.timeout != null)
-                  ? Alignment.center
-                  : (switches.data[id]!.position ^ (mirroring ?? false))
-                    ? Alignment.centerRight
-                    : Alignment.centerLeft,
-            width: sizeTrack != null ? sizeTrack!.width : 200.0,
-            height: sizeTrack != null ? sizeTrack!.height : 100.0,
-            child: Container(
-              decoration: (enabled == false)
-                  ? defaultDecorationSliderDisabled
-                  : (switches.data[id]!.timeout != null)
-                    ? decorationSliderWait ?? defaultDecorationSliderWait
-                    : (switches.data[id]!.position ^ (mirroring ?? false))
-                      ? decorationSliderOn ?? defaultDecorationSliderOn
-                      : decorationSliderOff ?? defaultDecorationSliderOff,
-              alignment: Alignment.center,
-              width:  sizeSlider != null ? sizeSlider!.width : 100.0,
-              height: sizeSlider != null ? sizeSlider!.height : 100.0,
-              child: (enabled == false)
-                  ? disabled
-                  : (switches.data[id]!.timeout != null)
-                    ? wait ?? Text(switches.data[id]!.timeout.toString(), style: timerStyle)
-                    : (switches.data[id]!.position ^ (mirroring ?? false))
-                      ? on : off,
-            ),
-          ),
+              /// if id is null, switch works like usual switch only two position ON/OFF
+              children: (id == null)
+                ? [
+                    /// Displaying track animations
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: animateDuration ?? 200),
+                      decoration: (enabled == false)
+                          ? decorationTrackDisabled ?? defaultDecorationTrackDisabled
+                          : (value ?? false)
+                            ? decorationTrackOn ?? defaultDecorationTrackOn
+                            : decorationTrackOff ?? defaultDecorationTrackOff,
+                      width: sizeTrack != null ? sizeTrack!.width : 100.0,
+                      height: sizeTrack != null ? sizeTrack!.height : 50.0,
+                    ),
+
+                    /// Displaying slider animations and his position
+                    AnimatedPositioned(
+                      top: ((sizeTrack != null ? sizeTrack!.height : 50.0) - (sizeSlider != null ? sizeSlider!.height : 48.0)) / 2,
+                      left: (enabled == false)
+                        ? ((sizeTrack != null ? sizeTrack!.width : 100.0) - (sizeSlider != null ? sizeSlider!.width : 48.0)) / 2
+                        : ((value ?? false) ^ (mirroring ?? false))
+                          ? (sizeTrack != null ? sizeTrack!.width : 100.0) - (sizeSlider != null ? sizeSlider!.width : 48.0)
+                          : 0,
+                      duration: Duration(milliseconds: animateDuration ?? 200),
+                      child: Container(
+                        decoration: (enabled == false)
+                            ? decorationSliderDisabled ?? defaultDecorationSliderDisabled
+                            : (value ?? false)
+                              ? decorationSliderOn ?? defaultDecorationSliderOn
+                              : decorationSliderOff ?? defaultDecorationSliderOff,
+                        alignment: Alignment.center,
+                        width:  sizeSlider != null ? sizeSlider!.width : 48.0,
+                        height: sizeSlider != null ? sizeSlider!.height : 48.0,
+                        child: (enabled == false)
+                            ? disabled
+                            : (value ?? false)
+                            ? on : off,
+                      ),
+                    ),
+                  ]
+
+                /// If id present, switch has full functionality with three positions ON/WAIT/OFF
+                : [
+                    /// Displaying track animations
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: animateDuration ?? 200),
+                      decoration: (enabled == false)
+                          ? decorationTrackDisabled ?? defaultDecorationTrackDisabled
+                          : (switches.data[id]!.timeout != null)
+                            ? decorationTrackWait ?? defaultDecorationTrackWait
+                            : (switches.data[id]!.position ^ (mirroring ?? false))
+                              ? decorationTrackOn ?? defaultDecorationTrackOn
+                              : decorationTrackOff ?? defaultDecorationTrackOff,
+                      width: sizeTrack != null ? sizeTrack!.width : 100.0,
+                      height: sizeTrack != null ? sizeTrack!.height : 50.0,
+                    ),
+
+                    /// Displaying slider animations and his position
+                    AnimatedPositioned(
+                      top: ((sizeTrack != null ? sizeTrack!.height : 50.0) - (sizeSlider != null ? sizeSlider!.height : 48.0)) / 2,
+                      left: (enabled == false)
+                          ? ((sizeTrack != null ? sizeTrack!.width : 100.0) - (sizeSlider != null ? sizeSlider!.width : 48.0)) / 2
+                          : (switches.data[id]!.timeout != null)
+                            ? ((sizeTrack != null ? sizeTrack!.width : 100.0) - (sizeSlider != null ? sizeSlider!.width : 48.0)) / 2
+                            : (switches.data[id]!.position ^ (mirroring ?? false))
+                              ? (sizeTrack != null ? sizeTrack!.width : 100.0) - (sizeSlider != null ? sizeSlider!.width : 48.0)
+                              : 0,
+                      duration: Duration(milliseconds: animateDuration ?? 200),
+                      child: Container(
+                        decoration: (enabled == false)
+                            ? decorationSliderDisabled ?? defaultDecorationSliderDisabled
+                            : (switches.data[id]!.timeout != null)
+                              ? decorationSliderWait ?? defaultDecorationSliderWait
+                              : (switches.data[id]!.position ^ (mirroring ?? false))
+                                ? decorationSliderOn ?? defaultDecorationSliderOn
+                                : decorationSliderOff ?? defaultDecorationSliderOff,
+                        alignment: Alignment.center,
+                        width:  sizeSlider != null ? sizeSlider!.width : 48.0,
+                        height: sizeSlider != null ? sizeSlider!.height : 48.0,
+                        child: (enabled == false)
+                            ? disabled
+                            : (switches.data[id]!.timeout != null)
+                              ? wait ?? Text(switches.data[id]!.timeout.toString(), style: timerStyle)
+                              : (switches.data[id]!.position ^ (mirroring ?? false))
+                                ? on : off,
+                      ),
+                    ),
+                ]
+            )
+          )
         );
       }
     );
