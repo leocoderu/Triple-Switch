@@ -124,7 +124,7 @@ class TripleSwitch extends StatelessWidget {
                 height: sizeSlider != null ? sizeSlider!.height : 100.0,
                 child: (enabled == false)
                     ? disabled
-                    : ((value ?? false) ^ (mirroring ?? false))
+                    : (value ?? false)
                       ? on : off,
               ),
             )
