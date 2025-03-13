@@ -1,3 +1,7 @@
+# 1.1.1
+
+* Change the logo to a high resolution logo
+
 # 1.1.0
 
 * Add "value" and "onChange()" properties, same usual Switch On/Off

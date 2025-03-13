@@ -109,5 +109,6 @@ Future<List<dynamic>> heavyFunction1(List<dynamic> args) async {
 
 ## Planned future changes
 
-    1. Figure out what you can replace the isolate with for the web version
+    1. Add the option to disable the slider
+    2. Figure out what you can replace the isolate with for the web version
     
