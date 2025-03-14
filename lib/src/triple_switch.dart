@@ -151,7 +151,7 @@ class TripleSwitch extends StatelessWidget {
                           : argumentsOffOn);
                 }
 
-                ///: null; //switches.stop(id);
+                /// switches.stop(id);
                 /// There is no point in stopping the request, as it must be processed!
               },
               child: Container(
@@ -218,10 +218,10 @@ class TripleSwitch extends StatelessWidget {
                                           : decorationSliderOff ??
                                               defaultDecorationSliderOff,
                                   alignment: Alignment.center,
-                                  width: sizeSlider != null
+                                  width: (sizeSlider != null)
                                       ? sizeSlider!.width
                                       : 48.0,
-                                  height: sizeSlider != null
+                                  height: (sizeSlider != null)
                                       ? sizeSlider!.height
                                       : 48.0,
                                   child: (enabled == false)
@@ -250,10 +250,10 @@ class TripleSwitch extends StatelessWidget {
                                                 defaultDecorationTrackOn
                                             : decorationTrackOff ??
                                                 defaultDecorationTrackOff,
-                                width: sizeTrack != null
+                                width: (sizeTrack != null)
                                     ? sizeTrack!.width
                                     : 100.0,
-                                height: sizeTrack != null
+                                height: (sizeTrack != null)
                                     ? sizeTrack!.height
                                     : 50.0,
                               ),
@@ -295,36 +295,35 @@ class TripleSwitch extends StatelessWidget {
                                 duration: Duration(
                                     milliseconds: animateDuration ?? 200),
                                 child: Container(
-                                  decoration: (enabled == false)
-                                      ? decorationSliderDisabled ??
-                                          defaultDecorationSliderDisabled
-                                      : (switches.data[id]!.timeout != null)
-                                          ? decorationSliderWait ??
-                                              defaultDecorationSliderWait
-                                          : (switches.data[id]!.position)
-                                              ? decorationSliderOn ??
-                                                  defaultDecorationSliderOn
-                                              : decorationSliderOff ??
-                                                  defaultDecorationSliderOff,
-                                  alignment: Alignment.center,
-                                  width: sizeSlider != null
-                                      ? sizeSlider!.width
-                                      : 48.0,
-                                  height: sizeSlider != null
-                                      ? sizeSlider!.height
-                                      : 48.0,
-                                  child: (enabled == false)
-                                      ? disabled
-                                      : (switches.data[id]!.timeout != null)
-                                          ? wait ??
-                                              Text(
-                                                  switches.data[id]!.timeout
-                                                      .toString(),
-                                                  style: timerStyle)
-                                          : (switches.data[id]!.position)
-                                              ? on
-                                              : off,
-                                ),
+                                    decoration: (enabled == false)
+                                        ? decorationSliderDisabled ??
+                                            defaultDecorationSliderDisabled
+                                        : (switches.data[id]!.timeout != null)
+                                            ? decorationSliderWait ??
+                                                defaultDecorationSliderWait
+                                            : (switches.data[id]!.position)
+                                                ? decorationSliderOn ??
+                                                    defaultDecorationSliderOn
+                                                : decorationSliderOff ??
+                                                    defaultDecorationSliderOff,
+                                    alignment: Alignment.center,
+                                    width: (sizeSlider != null)
+                                        ? sizeSlider!.width
+                                        : 48.0,
+                                    height: (sizeSlider != null)
+                                        ? sizeSlider!.height
+                                        : 48.0,
+                                    child: (enabled == false)
+                                        ? disabled
+                                        : (switches.data[id]!.timeout != null)
+                                            ? wait ??
+                                                Text(
+                                                    switches.data[id]!.timeout
+                                                        .toString(),
+                                                    style: timerStyle)
+                                            : (switches.data[id]!.position)
+                                                ? on
+                                                : off),
                               ),
                             ])));
         });

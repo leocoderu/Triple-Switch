@@ -1,3 +1,7 @@
+# 1.1.4
+
+* Change description in pubspec.yaml
+
 # 1.1.3
 
 * Change description in pubspec.yaml

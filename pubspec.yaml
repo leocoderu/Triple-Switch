@@ -1,7 +1,8 @@
 name: triple_switch
-description: "Triple switch has three positions ON - WAIT - OFF"
+description: "Triple switch has three states ON - WAIT - OFF. 
+ON / OFF is a regular state of switch, WAIT is a state awaiting finish heavy operation"
 
-version: 1.1.3
+version: 1.1.4
 
 repository: https://github.com/leocoderu/triple_switch
 homepage: https://leocode.ru
