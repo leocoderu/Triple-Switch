@@ -31,28 +31,35 @@ BoxDecoration defaultDecorationTrackDisabled = BoxDecoration(
 /// Decoration slider if switch in ON position
 BoxDecoration defaultDecorationSliderOn = BoxDecoration(
   borderRadius: BorderRadius.circular(12.0),
-  border: Border.all(color: const Color(0xFF201D26), strokeAlign: BorderSide.strokeAlignOutside),
+  border: Border.all(
+      color: const Color(0xFF201D26),
+      strokeAlign: BorderSide.strokeAlignOutside),
   color: const Color(0xFFF4F4F4),
 );
 
 /// Decoration slider if switch in OFF position
 BoxDecoration defaultDecorationSliderOff = BoxDecoration(
   borderRadius: BorderRadius.circular(12.0),
-  border: Border.all(color: const Color(0xFF201D26), strokeAlign: BorderSide.strokeAlignOutside),
+  border: Border.all(
+      color: const Color(0xFF201D26),
+      strokeAlign: BorderSide.strokeAlignOutside),
   color: const Color(0xFFF4F4F4),
 );
 
 /// Decoration slider if switch in WAIT position
 BoxDecoration defaultDecorationSliderWait = BoxDecoration(
   borderRadius: BorderRadius.circular(12.0),
-  border: Border.all(color: const Color(0xFF201D26), strokeAlign: BorderSide.strokeAlignOutside),
+  border: Border.all(
+      color: const Color(0xFF201D26),
+      strokeAlign: BorderSide.strokeAlignOutside),
   color: const Color(0xFFF4F4F4),
 );
 
 /// Decoration slider if switch is Disabled
 BoxDecoration defaultDecorationSliderDisabled = BoxDecoration(
   borderRadius: BorderRadius.circular(12.0),
-  border: Border.all(color: const Color(0xFF908393), strokeAlign: BorderSide.strokeAlignOutside),
+  border: Border.all(
+      color: const Color(0xFF908393),
+      strokeAlign: BorderSide.strokeAlignOutside),
   color: const Color(0xFF908E93),
 );
-
