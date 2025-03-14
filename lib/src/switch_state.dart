@@ -3,7 +3,6 @@ import 'dart:isolate';
 import 'package:flutter/material.dart';
 
 class SwitchModel {
-
   /// Position of switch, true -> ON / false -> OFF
   bool position;
 
@@ -30,7 +29,6 @@ class SwitchModel {
 }
 
 class SwitchState extends ChangeNotifier {
-
   /// List of switches
   Map<String, SwitchModel> data = {};
 
@@ -41,82 +39,76 @@ class SwitchState extends ChangeNotifier {
 
   /// Start function
   Future<void> start(String name, int? time, Function? function,
-    List<dynamic>? arguments) async {
-
-      if (time == null) {
-
-        /// Unknown result
-        data[name]!.result = null;
-
-        /// The result successfully unknown
-        data[name]!.success = null;
-
-        /// Inverse switch position
-        data[name]!.position = !data[name]!.position;
-
-        /// If save function exists
-        if (data[name]!.saveFunc != null) {
-          /// Send result to save function
-          data[name]!.saveFunc!(data[name]!.position);
-        }
-
-        /// Notify listeners
-        notifyListeners();
-        return;
-      }
-
-      /// Open listener timer port
-      final timerPort = ReceivePort();
-
-      /// Open listener function port
-      final funcPort = ReceivePort();
-
-      /// Set timeout
-      data[name]!.timeout = time;
-
-      /// Drop the previous result
+      List<dynamic>? arguments) async {
+    if (time == null) {
+      /// Unknown result
       data[name]!.result = null;
 
-      /// Drop the previous success result
+      /// The result successfully unknown
       data[name]!.success = null;
 
-      /// Drop timer isolate
-      data[name]!._isoTime = null;
+      /// Inverse switch position
+      data[name]!.position = !data[name]!.position;
 
-      /// Drop function isolate
-      data[name]!._isoFunc = null;
+      /// If save function exists
+      if (data[name]!.saveFunc != null) {
+        /// Send result to save function
+        data[name]!.saveFunc!(data[name]!.position);
+      }
 
-      /// There may be an excessive notification,
-      /// as it occurs below in the _listenTimer
       /// Notify listeners
       notifyListeners();
-
-      /// Start isolate for timer
-      data[name]!._isoTime = await Isolate.spawn(
-        _isoTimer, [timerPort.sendPort, data[name]!.timeout!]
-      );
-
-      /// Start listen timer port
-      _listenTimer(name, timerPort, funcPort);
-
-      /// If heavy function exists, start heavy function in isolate
-      if (function != null) {
-        data[name]!._isoFunc = await Isolate.spawn(
-            _isoFunction, [funcPort.sendPort, function, arguments ?? []]
-        );
-
-        /// Start listen heavy function port
-        _listenFunc(name, funcPort, timerPort);
-      }
+      return;
     }
+
+    /// Open listener timer port
+    final timerPort = ReceivePort();
+
+    /// Open listener function port
+    final funcPort = ReceivePort();
+
+    /// Set timeout
+    data[name]!.timeout = time;
+
+    /// Drop the previous result
+    data[name]!.result = null;
+
+    /// Drop the previous success result
+    data[name]!.success = null;
+
+    /// Drop timer isolate
+    data[name]!._isoTime = null;
+
+    /// Drop function isolate
+    data[name]!._isoFunc = null;
+
+    /// There may be an excessive notification,
+    /// as it occurs below in the _listenTimer
+    /// Notify listeners
+    notifyListeners();
+
+    /// Start isolate for timer
+    data[name]!._isoTime = await Isolate.spawn(
+        _isoTimer, [timerPort.sendPort, data[name]!.timeout!]);
+
+    /// Start listen timer port
+    _listenTimer(name, timerPort, funcPort);
+
+    /// If heavy function exists, start heavy function in isolate
+    if (function != null) {
+      data[name]!._isoFunc = await Isolate.spawn(
+          _isoFunction, [funcPort.sendPort, function, arguments ?? []]);
+
+      /// Start listen heavy function port
+      _listenFunc(name, funcPort, timerPort);
+    }
+  }
 
   /// Listener for Timer port
   void _listenTimer(String name, ReceivePort portTimer, ReceivePort portFunc) {
     portTimer.listen((time) {
-
       /// If Timer was complete
       if (time == null) {
-
         /// Stop Timer Listener
         portTimer.close();
 
@@ -139,8 +131,7 @@ class SwitchState extends ChangeNotifier {
   /// Listener for heavy function port
   void _listenFunc(String name, ReceivePort portFunc, ReceivePort portTimer) {
     portFunc.listen((res) {
-
-      /// If result of heavy function was received
+      /// When result of heavy function was received
       /// Result of heavy function
       data[name]!.result = res[0];
 
@@ -202,7 +193,6 @@ class SwitchState extends ChangeNotifier {
 
   /// Isolate for Timer
   static Future<void> _isoTimer(List<dynamic> data) async {
-
     /// First argument is port
     final SendPort sendPort = data[0];
 
@@ -220,7 +210,6 @@ class SwitchState extends ChangeNotifier {
 
   /// Isolate for Heavy function
   static Future<void> _isoFunction(List<dynamic> args) async {
-
     /// First argument is port
     final SendPort sendPort = args[0];
 

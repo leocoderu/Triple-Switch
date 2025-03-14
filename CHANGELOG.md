@@ -1,3 +1,7 @@
+# 1.1.2
+
+* Bringing the style to the Dart format
+
 # 1.1.1
 
 * Change the logo to a high resolution logo
