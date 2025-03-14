@@ -35,7 +35,8 @@ class TripleSwitch extends StatelessWidget {
   /// Arguments of the called heavy function, On -> Off
   final List<dynamic>? argumentsOnOff;
 
-  /// Event returns new position of switch, it may be old or new position
+  /// The event returns the new position of the switch,
+  /// which is the opposite of the one passed in the Value parameter.
   final ValueChanged<bool>? onChanged;
 
   /// Set duration of animation
@@ -130,7 +131,7 @@ class TripleSwitch extends StatelessWidget {
             /// If switch is disabled, we're not doing anything
             if (enabled == false) return;
 
-            /// If id is null, switch will work like usual switch
+            /// If id is null, switch will work like regular switch
             /// and return inverse of entrance value
             if (id == null) {
               if (onChanged != null) {return onChanged!(!(value ?? false));}
@@ -202,7 +203,7 @@ class TripleSwitch extends StatelessWidget {
                           ? decorationTrackDisabled ?? defaultDecorationTrackDisabled
                           : (switches.data[id]!.timeout != null)
                             ? decorationTrackWait ?? defaultDecorationTrackWait
-                            : (switches.data[id]!.position ^ (mirroring ?? false))
+                            : (switches.data[id]!.position)
                               ? decorationTrackOn ?? defaultDecorationTrackOn
                               : decorationTrackOff ?? defaultDecorationTrackOff,
                       width: sizeTrack != null ? sizeTrack!.width : 100.0,
@@ -225,7 +226,7 @@ class TripleSwitch extends StatelessWidget {
                             ? decorationSliderDisabled ?? defaultDecorationSliderDisabled
                             : (switches.data[id]!.timeout != null)
                               ? decorationSliderWait ?? defaultDecorationSliderWait
-                              : (switches.data[id]!.position ^ (mirroring ?? false))
+                              : (switches.data[id]!.position)
                                 ? decorationSliderOn ?? defaultDecorationSliderOn
                                 : decorationSliderOff ?? defaultDecorationSliderOff,
                         alignment: Alignment.center,
@@ -235,7 +236,7 @@ class TripleSwitch extends StatelessWidget {
                             ? disabled
                             : (switches.data[id]!.timeout != null)
                               ? wait ?? Text(switches.data[id]!.timeout.toString(), style: timerStyle)
-                              : (switches.data[id]!.position ^ (mirroring ?? false))
+                              : (switches.data[id]!.position)
                                 ? on : off,
                       ),
                     ),

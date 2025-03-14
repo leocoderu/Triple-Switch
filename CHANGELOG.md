@@ -1,6 +1,8 @@
 # 1.1.1
 
 * Change the logo to a high resolution logo
+* Fix bug with mirroring in three-position switch mode (mirroring only affects the slider position.)
+* Added more description how use it widget in README.md and comments in code
 
 # 1.1.0
 
