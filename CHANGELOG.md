@@ -1,3 +1,8 @@
+# 1.1.3
+
+* Change description in pubspec.yaml
+* Bringing the style to the Dart format for triple_switch.dart
+
 # 1.1.2
 
 * Bringing the style to the Dart format
