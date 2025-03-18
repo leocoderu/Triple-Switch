@@ -2,7 +2,8 @@
 
 ## Triple Switch
 
-Three-position switch has three states ON - WAIT - OFF. WAIT is a state awaiting finish heavy operation like getting information from net. ON / OFF is a usual state of switch 
+This widget has three states ON - WAIT - OFF. 
+ON / OFF is a regular state of switch, WAIT is a state awaiting finish heavy operation. 
 
 ## Usage
 
@@ -10,18 +11,29 @@ In main setup, the initial state of switches and stateful functions
 ```dart
 SwitchState().data = {
     'stringIdentifier1':  SwitchModel(
-        position: await readData('switch1'),          /// Read state from same Storage
-        saveFunc: (val) => saveData('switch1', val),  /// Save state to some Storage
+        /// Read state from same Storage
+        position: await readData('switch1'),
+
+        /// Save state to some Storage
+        saveFunc: (val) => saveData('switch1', val),  
     ),
     'stringIdentifier2': SwitchModel(
-        position: await readData('switch2'),          /// Read state from same Storage
-        saveFunc: (val) => saveData('switch2', val)   /// Save state to some Storage
+        /// Read state from same Storage
+        position: await readData('switch2'),
+
+        /// Save state to some Storage
+        saveFunc: (val) => saveData('switch2', val)   
     ),
     'stringIdentifier3': SwitchModel(
-        position: await readData('switch3'),          /// Read state from same Storage
-        saveFunc: (val) => saveData('switch3', val)   /// Save state to some Storage
+        /// Read state from same Storage
+        position: await readData('switch3'),
+
+        /// Save state to some Storage
+        saveFunc: (val) => saveData('switch3', val)   
     ),
-    'stringIdentifier4': SwitchModel(),               /// Can use without usage statement
+
+    /// You can use without usage statement
+    'stringIdentifier4': SwitchModel(),               
 };
 ```
 
@@ -160,6 +172,17 @@ Future<List<dynamic>> heavyFunction1(List<dynamic> args) async {
         </tr>
     </table>
 </div>
+
+## Thoughts out loud
+
+    The widget gets a function as a class property, and when you click on the widget, 
+    it creates an Isolate and executes the resulting function in it.
+
+    Each time the application is restarted, the state of the Singleton class (S-class) should be restored.
+    The S-class state can be loaded from: 
+        1. Permanent memory
+        2. The resource API
+        3. ~~State Management (SM)~~ - it makes no sense to store in SM because this S-class is itself an SM.
 
 ## Planned future changes
 
